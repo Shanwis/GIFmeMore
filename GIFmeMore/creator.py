@@ -47,9 +47,10 @@ class GIFCreator:
         print(" ".join(cmd))
         
         try:
-            subprocess.run(cmd, check=True, capture_output=True)
+            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
         except subprocess.CalledProcessError as e:
-            print(f"{description} failed: {e.stderr.decode()}")
+            print(f"\n{description} failed!")
+            print(f"Error output:\n{e.stderr}")
             raise
     
     def create_single_pass(self):
@@ -91,6 +92,10 @@ class GIFCreator:
         
         self._run_command(palette_cmd, "Palette generation")
         
+        # Verify palette was created
+        if not os.path.exists(palette_path):
+            raise FileNotFoundError("Palette generation failed - palette file not created")
+        
         # Pass 2: Create GIF using palette
         gif_cmd = [
             "ffmpeg",
@@ -103,16 +108,52 @@ class GIFCreator:
             self.output_path
         ]
         
-        self._run_command(gif_cmd, "GIF creation")
-        
-        # Cleanup palette
-        if os.path.exists(palette_path):
-            os.remove(palette_path)
+        try:
+            self._run_command(gif_cmd, "GIF creation")
+        finally:
+            # Cleanup palette (even if GIF creation fails)
+            if os.path.exists(palette_path):
+                os.remove(palette_path)
         
         print(f"✓ High-quality GIF created at {self.output_path}")
     
+    def preview(self):
+        """Preview the video segment with filters using ffplay"""
+        filter_chain = self._build_filter_chain()
+        
+        cmd = [
+            "ffplay",
+            "-ss", str(self.config.start),
+            "-t", str(self.config.duration),
+            "-i", self.config.input_file,
+            "-vf", filter_chain,
+            "-loop", "0",
+            "-autoexit"
+        ]
+        
+        print("\nOpening preview... (Close the window to continue)")
+        print(" ".join(cmd))
+        print()
+        
+        try:
+            subprocess.run(cmd, check=False)
+        except FileNotFoundError:
+            print("Warning: ffplay not found. Install FFmpeg to use preview.")
+            print("Skipping preview...")
+        except Exception as e:
+            print(f"Preview failed: {e}")
+            print("Continuing with GIF creation...")
+    
     def create(self):
         """Create GIF using configured method"""
+        if self.config.preview:
+            self.preview()
+            response = input("\nContinue with GIF creation? [Y/n]: ").strip().lower()
+            if response in ['n', 'no']:
+                print("✗ GIF creation cancelled.")
+                return
+            print()
+        
         if self.config.method == 'two-pass':
             self.create_two_pass()
         else:

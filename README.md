@@ -8,6 +8,7 @@ Now with two-pass encoding for superior quality!
 
 ## Features
 
+* Preview your GIF before creating it with built-in ffplay integration
 * Two-pass palette generation for better color quality and smaller file sizes
 * Clip a specific segment from any video file
 * Adjust the speed and frame rate (FPS) of the resulting GIF
@@ -27,7 +28,9 @@ This tool uses FFmpeg under the hood for video processing:
 ## Installation
 
 1.  **Install FFmpeg** (if not already installed):
-    Download from [ffmpeg.org](https://ffmpeg.org/download.html)
+    * **macOS:** `brew install ffmpeg`
+    * **Ubuntu/Debian:** `sudo apt install ffmpeg`
+    * **Windows:** Download from [ffmpeg.org](https://ffmpeg.org/download.html)
 
 2.  **Clone the repository:**
     ```bash
@@ -35,11 +38,7 @@ This tool uses FFmpeg under the hood for video processing:
     cd GIFmeMore
     ```
 
-3.  **Install the required Python libraries:**
-    All dependencies are listed in the `requirements.txt` file.
-    ```bash
-    pip install -r requirements.txt
-    ```
+3.  **No Python dependencies needed!** Just Python 3.7+ standard library.
 
 ## Usage
 
@@ -74,6 +73,11 @@ python -m GIFmeMore -f "cool_movie.mkv" -s 65 -d 4 -r 0.5 -sp 1.5
 **Use single-pass mode for faster (but lower quality) conversion:**
 ```bash
 python -m GIFmeMore -f "video.mp4" -m single-pass
+```
+
+**Preview before creating (recommended for fine-tuning):**
+```bash
+python -m GIFmeMore -f "video.mp4" -s 10 -d 3 --preview
 ```
 
 ### All Options
@@ -111,6 +115,7 @@ options:
                         Output filename (default: output.gif)
   -m METHOD, --method METHOD
                         GIF creation method: single-pass or two-pass (default: two-pass)
+  --preview             Preview the output before creating GIF
 ```
 
 ## Programmatic Usage
@@ -126,12 +131,24 @@ config = GIFConfig(
     start=10,
     duration=3,
     fps=20,
-    method="two-pass"
+    method="two-pass",
+    preview=True  # Enable preview
 )
 
 creator = GIFCreator(config)
 creator.create()
 ```
+
+## Preview Feature
+
+The `--preview` flag opens the video segment in ffplay with all your filters applied (speed, resize, text, etc.) before creating the GIF. This lets you:
+
+* See exactly what your GIF will look like
+* Verify timing, text placement, and effects
+* Adjust parameters without waiting for GIF creation
+* Save time by getting it right the first time
+
+After closing the preview window, you'll be prompted to continue or cancel the GIF creation.
 
 ## License
 

@@ -39,6 +39,8 @@ Examples:
     parser.add_argument('-m', '--method', default='two-pass', 
                        choices=['single-pass', 'two-pass'],
                        help='GIF creation method')
+    parser.add_argument('--preview', action='store_true',
+                       help='Preview the output before creating GIF')
 
     args = parser.parse_args()
 
@@ -55,7 +57,8 @@ Examples:
         fontsize=args.fontsize,
         color=args.color,
         loop=args.loop,
-        method=args.method
+        method=args.method,
+        preview=args.preview
     )
 
     try:

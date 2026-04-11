@@ -19,3 +19,4 @@ class GIFConfig:
     color: str = 'white'
     loop: int = 0
     method: str = 'two-pass'  # 'single-pass' or 'two-pass'
+    preview: bool = False  # Preview before creating GIF
