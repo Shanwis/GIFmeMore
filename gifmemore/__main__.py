@@ -1,4 +1,4 @@
-"""Entry point for running GIFMeMore as a module"""
+"""Entry point for running gifmemore as a module"""
 
 from .cli import main
 

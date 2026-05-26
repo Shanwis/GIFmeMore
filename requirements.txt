@@ -1,4 +1,0 @@
-argparse
-moviepy==1.0.3
-pygame
-Pillow==9.5.0
