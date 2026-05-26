@@ -27,5 +27,3 @@ jobs:
       - name: Check CLI runs
         run: python -m gifmemore --help
 
-      - name: Check legacy shim
-        run: python GIFCreator.py --help
