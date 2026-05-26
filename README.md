@@ -4,7 +4,7 @@ A command-line tool to quickly create high-quality animated GIFs from video file
 
 Now with two-pass encoding for superior quality!
 
-![Demonstration](https://raw.githubusercontent.com/shanwis/GIFmeMore/main/assets/program.gif)
+![Demonstration](https://cdn.jsdelivr.net/gh/Shanwis/GIFmeMore@main/assets/program.gif)
 
 ## Features
 
