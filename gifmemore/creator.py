@@ -1,6 +1,7 @@
 """GIF creation engine"""
 
 import os
+import shutil
 import subprocess
 from datetime import datetime
 from typing import List
@@ -13,9 +14,22 @@ class GIFCreator:
     """Creates GIFs from video files using FFmpeg"""
     
     def __init__(self, config: GIFConfig):
+        self._check_ffmpeg()
         self.config = config
         self._validate_input()
         self._prepare_output()
+    
+    @staticmethod
+    def _check_ffmpeg():
+        """Verify FFmpeg is installed and available on PATH"""
+        if shutil.which("ffmpeg") is None:
+            raise RuntimeError(
+                "FFmpeg is required but not found on your system.\n"
+                "Install it via:\n"
+                "  macOS: brew install ffmpeg\n"
+                "  Ubuntu/Debian: sudo apt install ffmpeg\n"
+                "  Windows: https://ffmpeg.org/download.html"
+            )
     
     def _validate_input(self):
         """Validate input file exists"""

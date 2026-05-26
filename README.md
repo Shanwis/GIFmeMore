@@ -1,10 +1,10 @@
-# GIF me More
+# gifmemore
 
-A command-line tool to quickly create high-quality animated GIFs from video files using FFmpeg. You can trim the video, adjust speed and FPS, resize the output, and add custom text overlays. 
+A command-line tool to quickly create high-quality animated GIFs from video files using FFmpeg. You can trim the video, adjust speed and FPS, resize the output, and add custom text overlays.
 
 Now with two-pass encoding for superior quality!
 
-![Demonstration of the GIF Creator](./assets/program.gif)
+![Demonstration](./assets/program.gif)
 
 ## Features
 
@@ -23,70 +23,65 @@ This tool uses FFmpeg under the hood for video processing:
 * **FFmpeg**: The industry-standard multimedia framework (must be installed on your system)
 * **Python 3.7+**: For the command-line interface and orchestration
 
-**Two-Pass Method:** By default, GIFMeMore generates a custom color palette first, then uses it to create the GIF. This produces significantly better quality than direct conversion, with optimized colors for your specific video content
+**Two-Pass Method:** By default, gifmemore generates a custom color palette first, then uses it to create the GIF. This produces significantly better quality than direct conversion, with optimized colors for your specific video content
 
 ## Installation
 
-1.  **Install FFmpeg** (if not already installed):
-    * **macOS:** `brew install ffmpeg`
-    * **Ubuntu/Debian:** `sudo apt install ffmpeg`
-    * **Windows:** Download from [ffmpeg.org](https://ffmpeg.org/download.html)
+### 1. Install FFmpeg (if not already installed):
+* **macOS:** `brew install ffmpeg`
+* **Ubuntu/Debian:** `sudo apt install ffmpeg`
+* **Windows:** Download from [ffmpeg.org](https://ffmpeg.org/download.html)
 
-2.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/Shanwis/GIFmeMore.git
-    cd GIFmeMore
-    ```
-
-3.  **No Python dependencies needed!** Just Python 3.7+ standard library.
+### 2. Install gifmemore:
+```bash
+pip install gifmemore
+```
 
 ## Usage
 
-The script is run from the command line. The only required argument is the path to the video file.
-
 ```bash
-python -m GIFmeMore -f <path_to_video> [options]
+gifmemore -f <path_to_video> [options]
 ```
 
-Or use the legacy entry point:
+Or run as a module:
 ```bash
-python GIFCreator.py -f <path_to_video> [options]
+python -m gifmemore -f <path_to_video> [options]
 ```
 
 ### Examples
 
 **Create a simple 5-second GIF from the beginning of a video:**
 ```bash
-python -m GIFmeMore -f "my_video.mp4" -d 5
+gifmemore -f "my_video.mp4" -d 5
 ```
 
 **Create a high-quality GIF starting at 10 seconds, with red text at the top left:**
 ```bash
-python -m GIFmeMore -f "input.mp4" -s 10 -d 3 -fp 25 -t "Hello World!" -p top_left -c "red" -fs 70
+gifmemore -f "input.mp4" -s 10 -d 3 -fp 25 -t "Hello World!" -p top_left -c "red" -fs 70
 ```
 
 **Create a half-sized GIF that runs at 1.5x speed:**
 ```bash
-python -m GIFmeMore -f "cool_movie.mkv" -s 65 -d 4 -r 0.5 -sp 1.5
+gifmemore -f "cool_movie.mkv" -s 65 -d 4 -r 0.5 -sp 1.5
 ```
 
 **Use single-pass mode for faster (but lower quality) conversion:**
 ```bash
-python -m GIFmeMore -f "video.mp4" -m single-pass
+gifmemore -f "video.mp4" -m single-pass
 ```
 
 **Preview before creating (recommended for fine-tuning):**
 ```bash
-python -m GIFmeMore -f "video.mp4" -s 10 -d 3 --preview
+gifmemore -f "video.mp4" -s 10 -d 3 --preview
 ```
 
 ### All Options
 
 ```
-usage: python -m GIFmeMore [-h] -f FILE [-s START] [-d DURATION] [-fp FPS] 
-                           [-sp SPEEDUP] [-r RESIZE] [-t TEXT] [-p POSITION]
-                           [-fs FONTSIZE] [-c COLOR] [--loop LOOP] [-o OUTPUT]
-                           [-m {single-pass,two-pass}]
+usage: gifmemore [-h] -f FILE [-s START] [-d DURATION] [-fp FPS]
+                 [-sp SPEEDUP] [-r RESIZE] [-t TEXT] [-p POSITION]
+                 [-fs FONTSIZE] [-c COLOR] [--loop LOOP] [-o OUTPUT]
+                 [-m {single-pass,two-pass}]
 
 Create GIFs from video files using FFmpeg
 
@@ -104,7 +99,7 @@ options:
                         Resize factor (default: 1.0)
   -t TEXT, --text TEXT  Text overlay
   -p POSITION, --position POSITION
-                        Text position: center, top, bottom, top_left, 
+                        Text position: center, top, bottom, top_left,
                         top_right, bottom_left, bottom_right (default: center)
   -fs FONTSIZE, --fontsize FONTSIZE
                         Font size (default: 50)
@@ -120,10 +115,10 @@ options:
 
 ## Programmatic Usage
 
-You can also use GIFMeMore as a Python library:
+You can also use gifmemore as a Python library:
 
 ```python
-from GIFmeMore import GIFConfig, GIFCreator
+from gifmemore import GIFConfig, GIFCreator
 
 config = GIFConfig(
     input_file="video.mp4",

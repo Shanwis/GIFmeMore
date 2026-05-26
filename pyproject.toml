@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gifmemore"
+version = "1.0.0"
+description = "Create high-quality GIFs from video files using FFmpeg"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+authors = [{name = "Ashwin S", email = "ashsanthosh8@gmail.com"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/Shanwis/GIFmeMore"
+
+[project.scripts]
+gifmemore = "gifmemore.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["gifmemore*"]
