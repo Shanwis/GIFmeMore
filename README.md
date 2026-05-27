@@ -14,6 +14,7 @@ Now with two-pass encoding for superior quality!
 * Overlay custom text with control over size, color, and position
 * Cross-platform support (Windows, macOS, Linux)
 * Clean, modular codebase with proper abstraction
+* Config file support with named presets for reusable parameter sets
 
 ## Core Dependencies
 
@@ -73,18 +74,112 @@ gifmemore -f "video.mp4" -m single-pass
 gifmemore -f "video.mp4" -s 10 -d 3 --preview
 ```
 
+**Use a named preset from your config file:**
+```bash
+gifmemore -f "video.mp4" --preset social_media
+```
+
+**Override individual preset values with CLI flags:**
+```bash
+gifmemore -f "video.mp4" --preset social_media -d 5 -fp 20
+```
+
+## Configuration & Presets
+
+gifmemore supports a JSON configuration file for storing default values and reusable named presets.
+
+### Config File Location
+
+The config file path is platform-specific. On first run (without `--config`), a default config file is auto-created:
+
+| Platform | Default Path |
+|---|---|
+| Linux | `~/.config/gifmemore/config.json` |
+| macOS | `~/Library/Application Support/gifmemore/config.json` |
+| Windows | `%APPDATA%\gifmemore\config.json` |
+
+You can also specify an explicit path with `--config <path>`.
+
+### Config File Format
+
+```json
+{
+  "fps": 15,
+  "loop": 0,
+  "presets": {
+    "social_media": {
+      "duration": 3,
+      "fps": 20,
+      "resize": 0.5,
+      "text": "Hello World"
+    },
+    "quick_share": {
+      "duration": 2,
+      "fps": 10,
+      "resize": 0.3,
+      "method": "single-pass"
+    }
+  }
+}
+```
+
+- **Top-level fields** act as defaults applied to every run.
+- **`presets`** holds named profiles — enable one with `--preset <name>`.
+- Preset values override top-level defaults; CLI flags override everything.
+
+### Priority Order (lowest → highest)
+
+1. `GIFConfig` code defaults
+2. Config file top-level fields
+3. Named preset fields
+4. CLI arguments (always win)
+
+### Commands
+
+| Flag | Description |
+|---|---|
+| `--config <path>` | Use a specific config file (skips auto-creation) |
+| `--preset <name>` | Apply a named preset from the config file |
+| `--init` | Create or reset the default config file and exit |
+
+### Examples
+
+```bash
+# First run — auto-creates config at platform path
+gifmemore -f video.mp4
+
+# Use a named preset
+gifmemore -f video.mp4 --preset social_media
+
+# Explitic config file with a preset
+gifmemore --config my_projects.json --preset quick -f video.mp4
+
+# Config provides input_file, no -f needed
+gifmemore --config my_config.json
+
+# Create/reset config
+gifmemore --init
+
+# Reset config at a custom path
+gifmemore --init --config /path/to/config.json
+```
+
 ### All Options
 
 ```
-usage: gifmemore [-h] -f FILE [-s START] [-d DURATION] [-fp FPS]
+usage: gifmemore [-h] [--config CONFIG] [--preset PRESET] [--init]
+                 [-f FILE] [-s START] [-d DURATION] [-fp FPS]
                  [-sp SPEEDUP] [-r RESIZE] [-t TEXT] [-p POSITION]
                  [-fs FONTSIZE] [-c COLOR] [--loop LOOP] [-o OUTPUT]
-                 [-m {single-pass,two-pass}]
+                 [-m {single-pass,two-pass}] [--preview]
 
 Create GIFs from video files using FFmpeg
 
 options:
   -h, --help            show this help message and exit
+  --config CONFIG       Configuration file path
+  --preset PRESET       Named preset from config file to apply
+  --init                Create default configuration file and exit
   -f FILE, --file FILE  Input video file
   -s START, --start START
                         Start time in seconds (default: 0)
@@ -107,7 +202,8 @@ options:
   -o OUTPUT, --output OUTPUT
                         Output filename (default: output.gif)
   -m METHOD, --method METHOD
-                        GIF creation method: single-pass or two-pass (default: two-pass)
+                        GIF creation method: single-pass or two-pass
+                        (default: two-pass)
   --preview             Preview the output before creating GIF
 ```
 
