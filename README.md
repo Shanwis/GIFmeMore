@@ -1,5 +1,10 @@
 # gifmemore
 
+[![PyPI version](https://img.shields.io/pypi/v/gifmemore)](https://pypi.org/project/gifmemore/)
+[![Downloads](https://pepy.tech/badge/gifmemore)](https://pepy.tech/project/gifmemore)
+[![License](https://img.shields.io/pypi/l/gifmemore)](https://github.com/Shanwis/GIFmeMore/blob/main/LICENSE)
+[![Python Versions](https://img.shields.io/pypi/pyversions/gifmemore)](https://pypi.org/project/gifmemore/)
+
 A command-line tool to quickly create high-quality animated GIFs from video files using FFmpeg. You can trim the video, adjust speed and FPS, resize the output, and add custom text overlays.
 
 Now with two-pass encoding for superior quality!
