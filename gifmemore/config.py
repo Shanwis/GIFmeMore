@@ -20,3 +20,4 @@ class GIFConfig:
     loop: int = 0
     method: str = 'two-pass'  # 'single-pass' or 'two-pass'
     preview: bool = False  # Preview before creating GIF
+    stats_mode: str = 'diff'  # Palette statistics mode: 'full', 'diff', or 'single'

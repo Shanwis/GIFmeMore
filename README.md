@@ -20,6 +20,8 @@ Now with two-pass encoding for superior quality!
 * Cross-platform support (Windows, macOS, Linux)
 * Clean, modular codebase with proper abstraction
 * Config file support with named presets for reusable parameter sets
+* Input validation (empty file detection, ffprobe verification)
+* Configurable palette statistics mode (`full`, `diff`, `single`) for optimal color quality
 
 ## Core Dependencies
 
@@ -111,6 +113,7 @@ You can also specify an explicit path with `--config <path>`.
 {
   "fps": 15,
   "loop": 0,
+  "stats_mode": "diff",
   "presets": {
     "social_media": {
       "duration": 3,
@@ -177,6 +180,7 @@ usage: gifmemore [-h] [--config CONFIG] [--preset PRESET] [--init]
                  [-sp SPEEDUP] [-r RESIZE] [-t TEXT] [-p POSITION]
                  [-fs FONTSIZE] [-c COLOR] [--loop LOOP] [-o OUTPUT]
                  [-m {single-pass,two-pass}] [--preview]
+                 [--stats-mode {full,diff,single}]
 
 Create GIFs from video files using FFmpeg
 
@@ -210,6 +214,9 @@ options:
                         GIF creation method: single-pass or two-pass
                         (default: two-pass)
   --preview             Preview the output before creating GIF
+  --stats-mode STATS_MODE
+                        Palette statistics mode: full, diff, or single
+                        (default: diff)
 ```
 
 ## Programmatic Usage
@@ -226,6 +233,7 @@ config = GIFConfig(
     duration=3,
     fps=20,
     method="two-pass",
+    stats_mode="diff",
     preview=True  # Enable preview
 )
 
