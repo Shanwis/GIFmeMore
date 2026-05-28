@@ -5,6 +5,7 @@ import json
 import os
 import argparse
 
+from . import __version__
 from .config import GIFConfig
 from .creator import GIFCreator
 from .presets import (
@@ -14,23 +15,10 @@ from .presets import (
     resolve_config,
 )
 
-# Maps GIFConfig field names -> argparse dest names
-# Only fields whose names differ between config and argparse need mapping
+# Maps GIFConfig field names -> argparse dest names for the few that differ
 CONFIG_TO_DEST = {
     "input_file": "file",
     "output_file": "output",
-    "start": "start",
-    "duration": "duration",
-    "fps": "fps",
-    "speedup": "speedup",
-    "resize": "resize",
-    "text": "text",
-    "position": "position",
-    "fontsize": "fontsize",
-    "color": "color",
-    "loop": "loop",
-    "method": "method",
-    "preview": "preview",
 }
 
 
@@ -40,7 +28,12 @@ def main():
     pre_parser.add_argument("--config", type=str)
     pre_parser.add_argument("--preset", type=str)
     pre_parser.add_argument("--init", action="store_true")
+    pre_parser.add_argument("-v","--version", action="store_true")
     pre_args, remaining = pre_parser.parse_known_args()
+        
+    if pre_args.version:
+        print(f"gifmemore {__version__}")
+        sys.exit(0)
 
     # --init: create config and exit
     if pre_args.init:
@@ -114,9 +107,8 @@ Examples:
             config_dict = resolve_config(data, pre_args.preset)
             # Translate GIFConfig field names -> argparse dest names
             defaults = {
-                dest: config_dict[key]
-                for key, dest in CONFIG_TO_DEST.items()
-                if key in config_dict
+                CONFIG_TO_DEST.get(key, key): value
+                for key, value in config_dict.items()
             }
             parser.set_defaults(**defaults)
         except KeyError as e:
