@@ -1,5 +1,6 @@
 """GIF creation engine"""
 
+import json
 import os
 import shutil
 import subprocess
@@ -32,9 +33,30 @@ class GIFCreator:
             )
     
     def _validate_input(self):
-        """Validate input file exists"""
+        """Validate input file exists and is a valid video file"""
         if not os.path.exists(self.config.input_file):
             raise FileNotFoundError(f"Input file not found: {self.config.input_file}")
+
+        if os.path.getsize(self.config.input_file) == 0:
+            raise ValueError(f"Input file is empty: {self.config.input_file}")
+
+        ffprobe = shutil.which("ffprobe")
+        if ffprobe:
+            try:
+                result = subprocess.run(
+                    [ffprobe, "-v", "quiet", "-print_format", "json",
+                     "-show_streams", self.config.input_file],
+                    capture_output=True, text=True, check=True
+                )
+                info = json.loads(result.stdout)
+                if not any(s.get("codec_type") == "video" for s in info.get("streams", [])):
+                    raise ValueError(
+                        f"No video streams found in: {self.config.input_file}"
+                    )
+            except (subprocess.CalledProcessError, json.JSONDecodeError) as e:
+                raise ValueError(
+                    f"Unable to read video file: {self.config.input_file} ({e})"
+                )
     
     def _prepare_output(self):
         """Prepare output directory and filename"""
@@ -99,7 +121,7 @@ class GIFCreator:
             "-ss", str(self.config.start),
             "-t", str(self.config.duration),
             "-i", self.config.input_file,
-            "-vf", f"{filter_chain},palettegen",
+            "-vf", f"{filter_chain},palettegen=stats_mode={self.config.stats_mode}",
             "-y",
             palette_path
         ]

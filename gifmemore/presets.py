@@ -36,6 +36,7 @@ def create_default_config(path: str) -> dict:
         "loop": 0,
         "method": "two-pass",
         "preview": False,
+        "stats_mode": "diff",
         "presets": {}
     }
     os.makedirs(os.path.dirname(path), exist_ok=True)

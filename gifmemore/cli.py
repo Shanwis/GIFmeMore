@@ -96,6 +96,9 @@ Examples:
                         help="GIF creation method")
     parser.add_argument("--preview", action="store_true",
                         help="Preview the output before creating GIF")
+    parser.add_argument("--stats-mode", default="diff",
+                        choices=["full", "diff", "single"],
+                        help="Palette statistics mode (full, diff, single)")
 
     # ── Stage 3: load config and inject as argparse defaults ────────
     explicit_config = pre_args.config is not None
@@ -154,6 +157,7 @@ Examples:
         loop=args.loop,
         method=args.method,
         preview=args.preview,
+        stats_mode=args.stats_mode,
     )
 
     try:
