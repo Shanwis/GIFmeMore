@@ -41,9 +41,10 @@ class FilterBuilder:
     def add_text_filter(self) -> 'FilterBuilder':
         """Add text overlay filter"""
         if self.config.text:
+            escaped = self.config.text.replace("\\", "\\\\").replace("'", "\\'")
             pos = self.POSITION_MAP.get(self.config.position, "(W-tw)/2:(H-th)/2")
             drawtext = (
-                f"drawtext=text='{self.config.text}':"
+                f"drawtext=text='{escaped}':"
                 f"fontcolor={self.config.color}:"
                 f"fontsize={self.config.fontsize}:"
                 f"x={pos.split(':')[0]}:y={pos.split(':')[1]}"
