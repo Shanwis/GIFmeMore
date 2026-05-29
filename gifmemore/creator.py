@@ -78,6 +78,7 @@ class GIFCreator:
             "-i", self.config.input_file,
             "-vf", filter_chain,
             "-y",
+            "-loop", str(self.config.loop),
             self.output_path
         ]
         
@@ -119,6 +120,7 @@ class GIFCreator:
             "-i", palette_path,
             "-lavfi", f"{filter_chain}[x];[x][1:v]paletteuse",
             "-y",
+            "-loop", str(self.config.loop),
             self.output_path
         ]
         
