@@ -3,6 +3,7 @@
 import os
 import shutil
 import subprocess
+import tempfile
 from datetime import datetime
 from typing import List
 
@@ -38,13 +39,16 @@ class GIFCreator:
     
     def _prepare_output(self):
         """Prepare output directory and filename"""
-        os.makedirs("output", exist_ok=True)
-        
-        if self.config.output_file == "output.gif":
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            self.config.output_file = f"output_{timestamp}.gif"
-        
-        self.output_path = os.path.join("output", self.config.output_file)
+        out_dir = os.path.dirname(self.config.output_file)
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
+            self.output_path = self.config.output_file
+        else:
+            os.makedirs("output", exist_ok=True)
+            if self.config.output_file == "output.gif":
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                self.config.output_file = f"output_{timestamp}.gif"
+            self.output_path = os.path.join("output", self.config.output_file)
     
     def _build_filter_chain(self) -> str:
         """Build the FFmpeg filter chain"""
@@ -92,7 +96,7 @@ class GIFCreator:
         the GIF, resulting in better color quality and smaller file size.
         """
         filter_chain = self._build_filter_chain()
-        palette_path = "output/palette.png"
+        palette_path = os.path.join(tempfile.gettempdir(), f"gifmemore_palette_{os.getpid()}.png")
         
         # Pass 1: Generate palette
         palette_cmd = [
