@@ -19,5 +19,7 @@ class GIFConfig:
     color: str = 'white'
     loop: int = 0
     method: str = 'two-pass'  # 'single-pass' or 'two-pass'
+    clipboard: bool = False # copy result to clipboard
     preview: bool = False  # Preview before creating GIF
+    clipboard: bool = False  # Copy result to system clipboard
     stats_mode: str = 'diff'  # Palette statistics mode: 'full', 'diff', or 'single'

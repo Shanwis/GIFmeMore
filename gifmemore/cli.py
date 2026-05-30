@@ -55,6 +55,7 @@ Examples:
   %(prog)s -f video.mp4
   %(prog)s -f video.mp4 -s 10 -d 3 -fp 20
   %(prog)s -f video.mp4 -m single-pass -t "Hello" -p top
+  %(prog)s -f video.mp4 -s 10 -d 3 --clipboard
         """
     )
 
@@ -96,6 +97,8 @@ Examples:
                         help="GIF creation method")
     parser.add_argument("--preview", action="store_true",
                         help="Preview the output before creating GIF")
+    parser.add_argument("--clipboard", action="store_true",
+                        help="Copy the resulting GIF to the system clipboard")
     parser.add_argument("--stats-mode", default="diff",
                         choices=["full", "diff", "single"],
                         help="Palette statistics mode (full, diff, single)")
@@ -157,6 +160,7 @@ Examples:
         loop=args.loop,
         method=args.method,
         preview=args.preview,
+        clipboard=args.clipboard,
         stats_mode=args.stats_mode,
     )
 
