@@ -22,6 +22,7 @@ Now with two-pass encoding for superior quality!
 * Config file support with named presets for reusable parameter sets
 * Input validation (empty file detection, ffprobe verification)
 * Configurable palette statistics mode (`full`, `diff`, `single`) for optimal color quality
+* Copy the resulting GIF directly to the system clipboard with `--clipboard` (cross-platform)
 
 ## Core Dependencies
 
@@ -79,6 +80,11 @@ gifmemore -f "video.mp4" -m single-pass
 **Preview before creating (recommended for fine-tuning):**
 ```bash
 gifmemore -f "video.mp4" -s 10 -d 3 --preview
+```
+
+**Create a GIF and copy it directly to the clipboard:**
+```bash
+gifmemore -f "video.mp4" -s 10 -d 3 --clipboard
 ```
 
 **Use a named preset from your config file:**
@@ -214,6 +220,7 @@ options:
                         GIF creation method: single-pass or two-pass
                         (default: two-pass)
   --preview             Preview the output before creating GIF
+  --clipboard           Copy the resulting GIF to the system clipboard
   --stats-mode STATS_MODE
                         Palette statistics mode: full, diff, or single
                         (default: diff)

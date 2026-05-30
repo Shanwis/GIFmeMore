@@ -10,6 +10,7 @@ from typing import List
 
 from .config import GIFConfig
 from .filters import FilterBuilder
+from .clipboard import copy_gif_to_clipboard
 
 
 class GIFCreator:
@@ -110,7 +111,9 @@ class GIFCreator:
         
         self._run_command(cmd, "Single-pass")
         print(f"✓ GIF created at {self.output_path}")
-    
+        if self.config.clipboard:
+            copy_gif_to_clipboard(self.output_path)
+
     def create_two_pass(self):
         """Create GIF using two-pass method (slower, higher quality)
         
@@ -158,7 +161,9 @@ class GIFCreator:
                 os.remove(palette_path)
         
         print(f"✓ High-quality GIF created at {self.output_path}")
-    
+        if self.config.clipboard:
+            copy_gif_to_clipboard(self.output_path)
+
     def preview(self):
         """Preview the video segment with filters using ffplay"""
         filter_chain = self._build_filter_chain()
