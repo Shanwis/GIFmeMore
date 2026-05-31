@@ -1,10 +1,24 @@
-# gifmemore
+<h1 align="center">gifmemore</h1>
 
-[![PyPI version](https://img.shields.io/pypi/v/gifmemore)](https://pypi.org/project/gifmemore/)
-[![Downloads](https://pepy.tech/badge/gifmemore)](https://pepy.tech/project/gifmemore)
-[![License](https://img.shields.io/pypi/l/gifmemore)](https://github.com/Shanwis/GIFmeMore/blob/main/LICENSE)
-[![Python Versions](https://img.shields.io/pypi/pyversions/gifmemore)](https://pypi.org/project/gifmemore/)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Shanwis/gifmemore/main/assets/logo.png" width="256">
+</p>
 
+<p align="center">
+  <a href="https://pypi.org/project/gifmemore/">
+    <img src="https://img.shields.io/pypi/v/gifmemore" alt="PyPI version">
+  </a>
+  <a href="https://pepy.tech/project/gifmemore">
+    <img src="https://pepy.tech/badge/gifmemore" alt="Downloads">
+  </a>
+  <a href="https://github.com/Shanwis/GIFmeMore/blob/main/LICENSE">
+    <img src="https://img.shields.io/pypi/l/gifmemore" alt="License">
+  </a>
+  <a href="https://pypi.org/project/gifmemore/">
+    <img src="https://img.shields.io/pypi/pyversions/gifmemore" alt="Python Versions">
+  </a>
+</p>
+    
 A command-line tool to quickly create high-quality animated GIFs from video files using FFmpeg. You can trim the video, adjust speed and FPS, resize the output, and add custom text overlays.
 
 Now with two-pass encoding for superior quality!
@@ -23,6 +37,7 @@ Now with two-pass encoding for superior quality!
 * Input validation (empty file detection, ffprobe verification)
 * Configurable palette statistics mode (`full`, `diff`, `single`) for optimal color quality
 * Copy the resulting GIF directly to the system clipboard with `--clipboard` (cross-platform)
+* Open the resulting GIF automatically after creation with `--open` (uses system default application)
 
 ## Core Dependencies
 
@@ -85,6 +100,11 @@ gifmemore -f "video.mp4" -s 10 -d 3 --preview
 **Create a GIF and copy it directly to the clipboard:**
 ```bash
 gifmemore -f "video.mp4" -s 10 -d 3 --clipboard
+```
+
+**Create a GIF and open it automatically after creation:**
+```bash
+gifmemore -f "video.mp4" -s 10 -d 3 --open
 ```
 
 **Use a named preset from your config file:**
@@ -165,7 +185,7 @@ gifmemore -f video.mp4
 # Use a named preset
 gifmemore -f video.mp4 --preset social_media
 
-# Explitic config file with a preset
+# Explicit config file with a preset
 gifmemore --config my_projects.json --preset quick -f video.mp4
 
 # Config provides input_file, no -f needed
@@ -221,6 +241,8 @@ options:
                         (default: two-pass)
   --preview             Preview the output before creating GIF
   --clipboard           Copy the resulting GIF to the system clipboard
+  --open                Open the GIF after creation using the system default
+                        application
   --stats-mode STATS_MODE
                         Palette statistics mode: full, diff, or single
                         (default: diff)
