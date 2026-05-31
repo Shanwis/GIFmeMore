@@ -4,5 +4,5 @@ from .config import GIFConfig
 from .filters import FilterBuilder
 from .creator import GIFCreator
 
-__version__ = "1.1.2"
+__version__ = "1.1.3"
 __all__ = ["GIFConfig", "FilterBuilder", "GIFCreator"]
