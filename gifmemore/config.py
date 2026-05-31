@@ -22,4 +22,5 @@ class GIFConfig:
     clipboard: bool = False # copy result to clipboard
     preview: bool = False  # Preview before creating GIF
     clipboard: bool = False  # Copy result to system clipboard
+    open_gif: bool = False  # Open GIF after creation
     stats_mode: str = 'diff'  # Palette statistics mode: 'full', 'diff', or 'single'

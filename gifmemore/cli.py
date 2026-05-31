@@ -99,6 +99,8 @@ Examples:
                         help="Preview the output before creating GIF")
     parser.add_argument("--clipboard", action="store_true",
                         help="Copy the resulting GIF to the system clipboard")
+    parser.add_argument("--open", action="store_true", dest="open_gif",
+                        help="Open the GIF after creation")
     parser.add_argument("--stats-mode", default="diff",
                         choices=["full", "diff", "single"],
                         help="Palette statistics mode (full, diff, single)")
@@ -161,6 +163,7 @@ Examples:
         method=args.method,
         preview=args.preview,
         clipboard=args.clipboard,
+        open_gif=args.open_gif,
         stats_mode=args.stats_mode,
     )
 

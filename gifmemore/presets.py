@@ -37,6 +37,7 @@ def create_default_config(path: str) -> dict:
         "method": "two-pass",
         "preview": False,
         "clipboard": False,
+        "open_gif": False,
         "stats_mode": "diff",
         "presets": {}
     }

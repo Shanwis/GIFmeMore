@@ -2,6 +2,7 @@
 
 import json
 import os
+import platform
 import shutil
 import subprocess
 import tempfile
@@ -73,6 +74,24 @@ class GIFCreator:
                 self.config.output_file = f"output_{timestamp}.gif"
             self.output_path = os.path.join("output", self.config.output_file)
     
+    def _open_gif(self):
+        """Open the GIF using the system's default application"""
+        path = os.path.abspath(self.output_path)
+        system = platform.system()
+
+        if system == "Darwin":
+            subprocess.run(["open", path], check=False)
+        elif system == "Windows":
+            os.startfile(path)
+        elif system == "Linux":
+            opener = shutil.which("xdg-open")
+            if opener:
+                subprocess.run([opener, path], check=False)
+            else:
+                print("Warning: xdg-open not found. Install xdg-utils to use --open.")
+        else:
+            print(f"Warning: Cannot open files on {system}")
+
     def _build_filter_chain(self) -> str:
         """Build the FFmpeg filter chain"""
         return (FilterBuilder(self.config)
@@ -113,6 +132,8 @@ class GIFCreator:
         print(f"✓ GIF created at {self.output_path}")
         if self.config.clipboard:
             copy_gif_to_clipboard(self.output_path)
+        if self.config.open_gif:
+            self._open_gif()
 
     def create_two_pass(self):
         """Create GIF using two-pass method (slower, higher quality)
@@ -163,6 +184,8 @@ class GIFCreator:
         print(f"✓ High-quality GIF created at {self.output_path}")
         if self.config.clipboard:
             copy_gif_to_clipboard(self.output_path)
+        if self.config.open_gif:
+            self._open_gif()
 
     def preview(self):
         """Preview the video segment with filters using ffplay"""
