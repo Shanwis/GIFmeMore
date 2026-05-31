@@ -63,16 +63,16 @@ class GIFCreator:
     
     def _prepare_output(self):
         """Prepare output directory and filename"""
+        self.config.output_file = os.path.expanduser(self.config.output_file)
         out_dir = os.path.dirname(self.config.output_file)
         if out_dir:
             os.makedirs(out_dir, exist_ok=True)
             self.output_path = self.config.output_file
         else:
-            os.makedirs("output", exist_ok=True)
             if self.config.output_file == "output.gif":
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 self.config.output_file = f"output_{timestamp}.gif"
-            self.output_path = os.path.join("output", self.config.output_file)
+            self.output_path = self.config.output_file
     
     def _open_gif(self):
         """Open the GIF using the system's default application"""
