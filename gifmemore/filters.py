@@ -21,6 +21,15 @@ class FilterBuilder:
         self.config = config
         self.filters: List[str] = []
     
+    def add_rotation_filter(self) -> 'FilterBuilder':
+        if self.config.rotation == 90:
+            self.filters.append("transpose=1")
+        elif self.config.rotation == 270:
+            self.filters.append("transpose=2")
+        elif self.config.rotation == 180:
+            self.filters.append("transpose=3")
+        return self
+    
     def add_speed_filter(self) -> 'FilterBuilder':
         """Add speed adjustment filter"""
         if self.config.speedup != 1.0:

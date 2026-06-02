@@ -24,3 +24,4 @@ class GIFConfig:
     clipboard: bool = False  # Copy result to system clipboard
     open_gif: bool = False  # Open GIF after creation
     stats_mode: str = 'diff'  # Palette statistics mode: 'full', 'diff', or 'single'
+    rotation: int = 0  # Video rotation in degrees (0/90/180/270)
