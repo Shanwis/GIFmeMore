@@ -117,6 +117,11 @@ gifmemore -f "video.mp4" --preset social_media
 gifmemore -f "video.mp4" --preset social_media -d 5 -fp 20
 ```
 
+**Use log flag to see detailed logs:**
+```bash
+gifmemore -f "video.mp4" --preset social_media -d 5 -fp 20 --logs
+```
+
 ## Configuration & Presets
 
 gifmemore supports a JSON configuration file for storing default values and reusable named presets.
@@ -215,6 +220,7 @@ options:
   --config CONFIG       Configuration file path
   --preset PRESET       Named preset from config file to apply
   --init                Create default configuration file and exit
+  --logs                Show detailed logs during GIF creation
   -f FILE, --file FILE  Input video file
   -s START, --start START
                         Start time in seconds (default: 0)
