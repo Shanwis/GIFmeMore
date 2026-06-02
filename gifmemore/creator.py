@@ -53,6 +53,14 @@ class GIFCreator:
                     capture_output=True, text=True, check=True
                 )
                 info = json.loads(result.stdout)
+                for stream in info.get("streams", []):
+                    if stream.get("codec_type") == "video":
+                        self.config.width = stream.get("width", 0)
+                        self.config.height = stream.get("height", 0)
+                        tags = stream.get("tags", {})
+                        if "rotate" in tags:
+                            self.config.rotation = int(tags["rotate"]) % 360
+                        break
                 if not any(s.get("codec_type") == "video" for s in info.get("streams", [])):
                     raise ValueError(
                         f"No video streams found in: {self.config.input_file}"
@@ -96,6 +104,7 @@ class GIFCreator:
     def _build_filter_chain(self) -> str:
         """Build the FFmpeg filter chain"""
         return (FilterBuilder(self.config)
+                .add_rotation_filter()
                 .add_speed_filter()
                 .add_resize_filter()
                 .add_fps_filter()
