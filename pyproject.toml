@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gifmemore"
-version = "1.1.3"
+version = "1.1.4"
 description = "Create high-quality GIFs from video files using FFmpeg"
 readme = "README.md"
 requires-python = ">=3.7"
