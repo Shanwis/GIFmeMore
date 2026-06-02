@@ -6,6 +6,7 @@ import os
 import argparse
 
 from . import __version__
+from .logger import set_verbose
 from .config import GIFConfig
 from .creator import GIFCreator
 from .presets import (
@@ -66,6 +67,8 @@ Examples:
                         help="Named preset from config file to apply")
     parser.add_argument("--init", action="store_true",
                         help="Create default configuration file and exit")
+    parser.add_argument("--logs", action="store_true",
+                        help="Show detailed logs during GIF creation")
 
     # GIF creation args (original defaults preserved)
     parser.add_argument("-f", "--file", type=str, help="Input video file")
@@ -142,6 +145,7 @@ Examples:
 
     # ── Stage 4: full parse (CLI args override set_defaults) ────────
     args = parser.parse_args(remaining)
+    set_verbose(args.logs)
 
     if args.file is None:
         parser.error("Input file is required "
