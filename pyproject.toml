@@ -9,14 +9,19 @@ description = "Create high-quality GIFs from video files using FFmpeg"
 readme = "README.md"
 requires-python = ">=3.7"
 license = "MIT"
-authors = [{name = "Ashwin S", email = "ashsanthosh8@gmail.com"}]
+authors = [
+    {name = "Ashwin S", email = "ashsanthosh8@gmail.com"}
+]
+
+keywords = ["gif", "ffmpeg", "video", "animation", "cli"]
+
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
 
 [project.urls]
-Homepage = "https://github.com/Shanwis/GIFmeMore"
+Homepage = "https://github.com/Shanwis/gifmemore"
 
 [project.scripts]
 gifmemore = "gifmemore.cli:main"

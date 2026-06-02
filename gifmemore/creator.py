@@ -12,6 +12,7 @@ from typing import List
 from .config import GIFConfig
 from .filters import FilterBuilder
 from .clipboard import copy_gif_to_clipboard
+from .logger import log
 
 
 class GIFCreator:
@@ -103,14 +104,14 @@ class GIFCreator:
     
     def _run_command(self, cmd: List[str], description: str = "FFmpeg"):
         """Execute FFmpeg command"""
-        print(f"Running {description} command:")
-        print(" ".join(cmd))
+        log(f"Running {description} command:")
+        log(" ".join(cmd))
         
         try:
             result = subprocess.run(cmd, check=True, capture_output=True, text=True)
         except subprocess.CalledProcessError as e:
             print(f"\n{description} failed!")
-            print(f"Error output:\n{e.stderr}")
+            log(f"Error output:\n{e.stderr}")
             raise
     
     def create_single_pass(self):
@@ -202,7 +203,7 @@ class GIFCreator:
         ]
         
         print("\nOpening preview... (Close the window to continue)")
-        print(" ".join(cmd))
+        log(" ".join(cmd))
         print()
         
         try:
