@@ -55,6 +55,8 @@ class GIFCreator:
                 info = json.loads(result.stdout)
                 for stream in info.get("streams", []):
                     if stream.get("codec_type") == "video":
+                        self.config.width = stream.get("width", 0)
+                        self.config.height = stream.get("height", 0)
                         tags = stream.get("tags", {})
                         if "rotate" in tags:
                             self.config.rotation = int(tags["rotate"]) % 360

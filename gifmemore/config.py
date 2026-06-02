@@ -19,9 +19,10 @@ class GIFConfig:
     color: str = 'white'
     loop: int = 0
     method: str = 'two-pass'  # 'single-pass' or 'two-pass'
-    clipboard: bool = False # copy result to clipboard
     preview: bool = False  # Preview before creating GIF
-    clipboard: bool = False  # Copy result to system clipboard
+    clipboard: bool = False  # copy result to clipboard
     open_gif: bool = False  # Open GIF after creation
     stats_mode: str = 'diff'  # Palette statistics mode: 'full', 'diff', or 'single'
     rotation: int = 0  # Video rotation in degrees (0/90/180/270)
+    width: int = 0  # Original video width (from ffprobe)
+    height: int = 0  # Original video height (from ffprobe)
