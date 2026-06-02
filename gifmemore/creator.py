@@ -12,7 +12,7 @@ from typing import List
 from .config import GIFConfig
 from .filters import FilterBuilder
 from .clipboard import copy_gif_to_clipboard
-from .logger import log
+from .logger import log, is_verbose
 
 
 class GIFCreator:
@@ -207,7 +207,10 @@ class GIFCreator:
         print()
         
         try:
-            subprocess.run(cmd, check=False)
+            kwargs = {}
+            if not is_verbose():
+                kwargs = {"stdout": subprocess.DEVNULL, "stderr": subprocess.DEVNULL}
+            subprocess.run(cmd, check=False, **kwargs)
         except FileNotFoundError:
             print("Warning: ffplay not found. Install FFmpeg to use preview.")
             print("Skipping preview...")
