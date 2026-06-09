@@ -15,6 +15,12 @@ from .presets import (
     load_config,
     resolve_config,
 )
+from .url_download import (
+    is_url,
+    is_ytdlp_available,
+    print_download_instructions,
+    VideoDownloader,
+)
 
 # Maps GIFConfig field names -> argparse dest names for the few that differ
 CONFIG_TO_DEST = {
@@ -151,6 +157,19 @@ Examples:
         parser.error("Input file is required "
                       "(use -f or set 'input_file' in config)")
 
+    downloader = None
+    if is_url(args.file):
+        if not is_ytdlp_available():
+            print_download_instructions(args.file)
+            sys.exit(1)
+
+        downloader = VideoDownloader(args.file)
+        try:
+            args.file = downloader.download()
+        except Exception as e:
+            print(f"Error: {e}", file=sys.stderr)
+            sys.exit(1)
+
     config = GIFConfig(
         input_file=args.file,
         output_file=args.output,
@@ -177,6 +196,9 @@ Examples:
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
+    finally:
+        if downloader:
+            downloader.cleanup()
 
 
 if __name__ == "__main__":
