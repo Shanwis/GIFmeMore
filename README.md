@@ -37,6 +37,7 @@ Now with two-pass encoding for superior quality!
 * Input validation (empty file detection, ffprobe verification)
 * Configurable palette statistics mode (`full`, `diff`, `single`) for optimal color quality
 * Copy the resulting GIF directly to the system clipboard with `--clipboard` (cross-platform)
+* Download videos directly from **YouTube and 1000+ websites** using `yt-dlp` — just pass a URL
 * Open the resulting GIF automatically after creation with `--open` (uses system default application)
 
 ## Core Dependencies
@@ -57,6 +58,11 @@ This tool uses FFmpeg under the hood for video processing:
 ### 2. Install gifmemore:
 ```bash
 pip install gifmemore
+```
+
+For URL/YouTube support, install with the optional extra:
+```bash
+pip install gifmemore[url]
 ```
 
 ## Usage
@@ -121,6 +127,25 @@ gifmemore -f "video.mp4" --preset social_media -d 5 -fp 20
 ```bash
 gifmemore -f "video.mp4" --preset social_media -d 5 -fp 20 --logs
 ```
+
+### URL / YouTube Support
+
+Pass a video URL directly to `-f` — gifmemore will auto-download using `yt-dlp`, create the GIF, and clean up the temp file.
+
+Requires `yt-dlp` (install via `pip install gifmemore[url]`).
+
+```bash
+# Download a YouTube video and create a GIF in one command
+gifmemore -f "https://www.youtube.com/watch?v=jNQXAC9IVRw" -s 5 -d 3 -fp 10
+
+# Works with any site yt-dlp supports
+gifmemore -f "https://youtu.be/dQw4w9WgXcQ" -s 0 -d 5 --preview
+
+# All other options work as usual
+gifmemore -f "https://youtube.com/watch?v=jNQXAC9IVRw" -s 10 -d 2 -r 0.5 -t "Nice!" -p bottom
+```
+
+If `yt-dlp` is not installed, gifmemore prints setup instructions and exits gracefully.
 
 ## Configuration & Presets
 
@@ -249,6 +274,7 @@ options:
   --clipboard           Copy the resulting GIF to the system clipboard
   --open                Open the GIF after creation using the system default
                         application
+  --logs                Show detailed logs during GIF creation
   --stats-mode STATS_MODE
                         Palette statistics mode: full, diff, or single
                         (default: diff)

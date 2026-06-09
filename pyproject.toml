@@ -28,3 +28,6 @@ gifmemore = "gifmemore.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["gifmemore*"]
+
+[project.optional-dependencies]
+url = ["yt-dlp"]
